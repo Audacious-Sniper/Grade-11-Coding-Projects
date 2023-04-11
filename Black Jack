@@ -1,0 +1,77 @@
+import random
+
+# Display welcome message
+print("Welcome to a game of Blackjack!")
+
+# Get the player's name and starting balance
+player_name = input("What is your name? : ")
+balance = int(input("What is your starting balance? : "))
+
+# Start game using a loop
+while True:
+    # Check if the player has enough in their balance to continue playing
+    if balance == 0:
+        print("You don't have enough remaining balance to continue playing.")
+        break
+
+    # Display the player's balance
+    print(f"\n{player_name}, your current balance is {balance}.")
+
+    # Get the player's bet amount
+    bet = int(input("How much would you like to bet? : "))
+
+    # Check if the player's bet amount is valid
+    if bet > balance:
+        print("You can't bet more than your balance. Try again.")
+        continue
+
+    # Deal the cards
+    player_cards = [random.randint(1, 10), random.randint(1, 10)]
+    dealer_cards = [random.randint(1, 10), random.randint(1, 10)]
+
+    # Show player's cards and dealer's first card
+    print(f"\nYour cards: {player_cards}")
+    print(f"Dealer's cards: [{dealer_cards[0]}, *]")
+
+    # Player's turn
+    while True:
+        # Get player's choice to hit or stand
+        choice = input("Do you want to hit or stand? : ")
+
+        if choice.lower() == "hit":
+            # Draw a new card for player
+            new_card = random.randint(1, 10)
+            player_cards.append(new_card)
+            print(f"Your cards: {player_cards}")
+
+            # Check if player busts
+            if sum(player_cards) > 21:
+                print("You busted! Dealer wins.")
+                balance = balance - bet
+                break
+        elif choice.lower() == "stand":
+            break
+        else:
+            print("Invalid input. Try again.")
+
+    # Dealer's turn
+    if sum(player_cards) <= 21:
+        while sum(dealer_cards) < 17:
+            # Draw a new card for dealer if their total is less than 17
+            new_card = random.randint(1, 10)
+            dealer_cards.append(new_card)
+
+        # Show dealer's final hand
+        print(f"Dealer's cards: {dealer_cards}")
+
+        # Compare player's and dealer's hands
+        if sum(dealer_cards) > 21:
+            print("Dealer busted! You win.")
+            balance = balance + bet
+        elif sum(dealer_cards) > sum(player_cards):
+            print("Dealer wins.")
+            balance = balance - bet
+        elif sum(player_cards) > sum(dealer_cards):
+            print("You win!")
+            balance = balance + bet
+
