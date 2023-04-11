@@ -1,0 +1,102 @@
+import random
+from discord.ext import commands
+
+TOKEN = "MTA4OTk1NDA2NDc0NzQ3OTA0MQ.Ggh8ar.ibNVX8undxGkaFo1htZB1eSkMTEnWsYoMHjJJE"
+
+bot = commands.Bot(command_prefix="#")
+
+@bot.event
+async def on_ready():
+    print(f'{bot.user} successfully logged in')
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    if message.content == '#Josh':
+        response = message.content
+        await message.add_reaction('💋')
+        await message.channel.send("Give me some love 😜")
+    elif message.content == '#Torren':
+        response = message.content
+        await message.add_reaction('💀')
+        await message.channel.send("WHY?")
+    elif message.content.startswith('#Love Advice 1'):
+        responses = ['You know that tingly little feeling you get when you like someone? That is your common sense leaving your body.',
+                     'I love you with all my belly. I would say heart, but my belly is bigger.',
+                     'I love you so much I\'d fight a bear for you. Well not a grizzly bear because they have claws, and not a panda bear because they know Kung Fu. But a care bear, I\'d definitely fight a care bear for you.',
+                     'In a room full of art, I\'d still stare at you.', 'You love flowers, but you cut them. You love animals, but you eat them. You tell me you love me, so now I\'m scared!',
+                     'I love you more than coffee, but please don\'t make me prove it.','Love makes people do silly things. Like, it made me send you this message!']
+
+        response = random.choice(responses)
+        await message.channel.send(response)
+
+    elif message.content.startswith('#Breakup Story'):
+        responses = await message.channel.send('''It was an unseasonably warm day in Cambridge when I met her for the first time. She was a bright and eager student, full of questions and ideas. I was immediately struck by her intelligence and her passion for the subject matter. As a professor at Harvard, I had seen many students come and go, but there was something different about her.
+
+We began working together on her thesis, spending countless hours in my office, discussing theories and analyzing data. I was her mentor, her teacher, her confidant. Over time, our conversations became more personal. We talked about our families, our dreams, and our fears. I found myself looking forward to our meetings, eager to hear her thoughts and insights.
+
+It wasn't long before I realized that I had developed feelings for her. I tried to push them aside, to focus on our work, but it was impossible. She was too beautiful, too talented, too captivating. And so, one day, I finally confessed my love for her.
+
+To my surprise, she felt the same way. We began a secret relationship, sneaking around campus and stealing moments whenever we could. I knew it was wrong, that it could jeopardize both of our careers, but I couldn't resist her.
+''')
+
+        await message.channel.send('''For a while, we were happy. We spent weekends exploring the city, trying new restaurants, and staying up all night talking. I felt alive in a way I hadn't in years. But the reality of our situation began to weigh on me. I was a professor, she was a student. I was in my 60s, she was in her 20s. It was never going to work.
+
+One day, I had to end it. I couldn't keep living a lie, couldn't keep risking everything for a relationship that was doomed from the start. I sat her down in my office and told her that we had to break up. She cried, begged me to reconsider, but I knew it was the right thing to do.
+
+After that, everything changed. Our conversations became stilted, awkward. She avoided me in the hallways, in class, on campus. I felt like a pariah, a man who had committed a great sin. I tried to move on, to focus on my work, but the memory of her haunted me.
+
+Years have passed since then, and I've found some measure of peace. I still think of her, of what could have been, but I know that it was never meant to be. I hope she's happy, that she's found someone who can give her the love and happiness she deserves. As for me, I'll always carry the memory of her with me, a bittersweet reminder of a love that was never meant to be.
+''')
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    if message.content.startswith('# More Love Advice'):
+        responses = [
+            "Don't settle for someone who makes you feel like an option. Find someone who knows your worth and treats you like a priority.",
+            "Love is not just about finding the right person, it's also about being the right person.",
+            "The best relationships are the ones where you can be yourself and still feel loved and accepted.",
+            "Communication is key in any relationship. Always be open and honest with your partner.",
+            "It's important to have your own life and interests outside of your relationship. That way, you can grow as an individual and bring new experiences and perspectives into your relationship.",
+            "Don't be afraid to show vulnerability in a relationship. It takes courage to open up and let someone see the real you.",
+            "Remember that love is a choice, not just a feeling. Choose to love your partner every day, even when it's hard.",
+            "The most important thing in a relationship is trust. Without it, the relationship cannot survive.",
+            "Love is not about finding someone who completes you, it's about finding someone who accepts you completely.",
+            "Don't compare your relationship to others. Every relationship is unique and special in its own way.",
+            "A strong and healthy relationship requires effort and commitment from both partners. Don't take your partner for granted and always work to strengthen your bond.",
+            "In a healthy relationship, both partners should feel valued and respected. If you feel like you are constantly compromising your values or sacrificing your happiness for your partner, it may be time to re-evaluate the relationship.",
+        ]
+        response = random.choice(responses)
+        await message.channel.send(response)
+
+    elif message.content.startswith('#LoveAdvice Breakup'):
+        responses = ['Breaking up is never easy, but sometimes it’s necessary for both parties to grow and move on. Be kind, honest, and firm in your decision, and focus on your own healing and growth afterward.',
+                     'When you’re in the middle of a breakup, it can be hard to see the light at the end of the tunnel. But trust that it will get easier with time, and focus on taking care of yourself in the meantime.',
+                     'Remember that a breakup doesn’t define your worth or your ability to love. You are still worthy of love and happiness, even if this relationship didn’t work out.',
+                     'It’s okay to grieve the end of a relationship, even if it was a short one. Allow yourself time to process your emotions, and reach out to friends or a therapist for support if needed.',
+                     'Breaking up can be an opportunity for growth and self-discovery. Take this time to focus on yourself, try new things, and figure out what you truly want in a partner and in life.']
+        response = random.choice(responses)
+        await message.channel.send(response)
+
+    elif message.content.startswith('#LoveAdvice Jealousy'):
+        responses = ['Jealousy can be a normal emotion, but it’s important not to let it consume you or negatively impact your relationship. Talk to your partner about your feelings in a calm and honest way, and work together to build trust and security in your relationship.',
+                     'Remember that jealousy often stems from insecurity or past experiences, and may not always be a reflection of reality. Focus on building your own self-confidence and trust in your partner.',
+                     'It’s okay to feel jealous sometimes, but try not to let it dictate your actions or thoughts. Take a step back, breathe, and try to focus on the positive aspects of your relationship.',
+                     'If you find yourself constantly feeling jealous or insecure in your relationship, it may be helpful to seek out the support of a therapist or counselor. They can help you work through these emotions and develop healthier coping mechanisms.',
+                     'Remember that communication is key in any relationship, especially when it comes to dealing with jealousy. Talk openly and honestly with your partner about your feelings, and work together to find solutions that work for both of you.']
+        response = random.choice(responses)
+        await message.channel.send(response)
+
+    elif message.content.startswith('#LoveAdvice Trust'):
+        responses = ['Trust is an essential component of any healthy relationship. Focus on building open and honest communication with your partner, and be reliable and consistent in your actions.',
+                     'If you’re struggling with trust issues in your relationship, it may be helpful to talk to your partner about your concerns and work together to establish clear boundaries and expectations.',
+                     'Remember that trust is earned, not given. Be patient with yourself and your partner as you work to build trust, and don’t be afraid to seek out the support of a therapist or counselor if needed.']
+
+        response = random.choice(responses)
+        await message.channel.send(response)
+
+bot.run(TOKEN)
