@@ -1,66 +1,94 @@
-def plot():
-    import requests
-    TOKEN = "ab967722f92bdf3d288d89e20bbba688"
-    TOKEN2 = "d4bca8a678680fe4b1dc1c8f79c369f0"
-    exclude = "minutely, hourly, alerts"
-    CityName = input("Enter City Name : ")
+import pygame
+import weatherthingy
 
-    url2 = 'http://api.positionstack.com/v1/forward?access_key={}&query={}'.format(TOKEN2, CityName)
+from pygame.locals import (
+    K_ESCAPE,
+    # Detects keypresses
+    KEYDOWN,
+    QUIT,
+    # Detects window closure
+)
 
-    res2 = requests.get(url2)
-    data2 = res2.json()
-    print(data2)
-    lat = data2['data'][0]['latitude']
-    lon = data2['data'][0]['longitude']
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 500
+pygame.init()
+# Starts up pygame
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+# Setting screen resoultion
+font = pygame.font.Font(None, 20)
 
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import PygameWindow
+class ReloadButton:
+    def __init__(self, text, x_position, y_position, enabled, screen):
+        self.text = text
+        self.x_position = x_position
+        self.y_position = y_position
+        self.enabled = enabled
+        self.screen = screen
+        # Assign each of the variables to the "self" variable
+        # Easier to reference each variable later on in functions
 
-    url = "http://api.openweathermap.org/data/2.5/forecast?lat={}&lon={}&appid={}".format(lat,lon,TOKEN)
+    def draw(self):
+        # Function to draw button
+        button_text = font.render(self.text, True, "black")
+        # Draw text over the button and tie it to self to refer to later
+        # Define ant - aliase as "True", and the button is black
+        button_rect = pygame.rect.Rect((self.x_position, self.y_position), (150, 25))
+        if self.enabled:
+            if self.check_click():
+            # Define the button as a rectangle & set pixel size
+                pygame.draw.rect(self.screen, "dark grey", button_rect, 0, 5)
+                # Button dark grey when clicked
+            else:
+                pygame.draw.rect(self.screen, "light grey", button_rect, 0, 5)
+                # Button light grey when clicked
 
-    res = requests.get(url)
-    data = res.json()
-    print(data)
+        pygame.draw.rect(self.screen, "black", button_rect, 2, 5)
+        # Creates a border around the button at position 2 and 5
+        # Define color button a design, rounded off corners at 0 and 5
+        self.screen.blit(button_text, (self.x_position + 3, self.y_position + 3))
+        # Center the text in the center (displace 3 pixels) and display text
 
-    date1 = int(data['list'][0]['main']['temp']) - 273
-    date2 = int(data['list'][1]['main']['temp']) - 273
-    date3 = int(data['list'][2]['main']['temp']) - 273
-    date4 = int(data['list'][3]['main']['temp']) - 273
-    date5 = int(data['list'][4]['main']['temp']) - 273
+    def check_click(self):
+        # Checks buttons position to see if clicked
+        mouse_position = pygame.mouse.get_pos()
+        # Using built in pygame mouse detection feature
+        left_click = pygame.mouse.get_pressed()[0]
+        # Checks if any three buttons are pressed on mouse. Only check for first index (left button) for click [0]
 
-    x2 = [17, 18, 19, 20, 21]
-    y2 = [date1, date2, date3, date4, date5]
+        button_rect = pygame.rect.Rect((self.x_position, self.y_position), (150, 25))
+        # Redefine "button_rect" outside function
+        if left_click and button_rect.collidepoint(mouse_position) and self.enabled:
 
-    # plotting the points
-    plt.plot(x2, y2, color='red', linestyle='dashed', linewidth=3,
-         marker='o', markerfacecolor='purple', markersize=12)
+            weatherthingy.plot()
+            PygameWindowFunction()
+            return True
+        else:
+            return False
 
-    #Historical LINE
-    # x axis values
-    x1 = [17, 18, 19, 20, 21]
-    # corresponding y axis values
-    y1 = [3.4, 4.2, 3.4, 6.8, 11]
+def PygameWindowFunction():
+    screen.fill((255, 255, 255))
+    # White background
+    plot_img = pygame.image.load('graph.png')
+    # Opens graph as png
+    screen.blit(plot_img, (0, 0))
+    # Specifys where to open graph.png
+    pygame.display.flip()
+    # Displays pygame onscreen
 
-    # plotting the points
-    plt.plot(x1, y1, color='green', linestyle='dashed', linewidth=3,
-         marker='o', markerfacecolor='blue', markersize=12)
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+            elif event.type == QUIT:
+                running = False
 
-    #limit decimals from appearing on x axis
-    plt.xticks(np.arange(min(x1), max(x1)+1, 1.0))
+        Reload_Button = ReloadButton('Reload', 615, 100, True, screen)
+        Reload_Button.draw()
+    
+        pygame.display.update()
 
-    # setting x and y axis range
-    plt.ylim(0, 21)
-    plt.xlim(17, 21)
+    pygame.quit()
 
-    # naming the x axis
-    plt.xlabel('Date')
-    # naming the y axis
-    plt.ylabel('Temperature C')
-
-    # giving a title to my graph
-    plt.title('Temp graph for the week')
-
-    # save the created figure to a PNG (will overwrite itself)
-    plt.savefig('graph.png')
-
+PygameWindowFunction()
